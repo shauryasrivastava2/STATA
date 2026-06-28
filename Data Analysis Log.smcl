@@ -1,0 +1,423 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Shaurya\Downloads\Stata_Test_2020 (2)\Data Analysis Log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}20 Feb 2022, 02:36:04
+
+{com}. import excel "C:\Users\Shaurya\Downloads\Stata_Test_2020 (2)\FinalMerge.xlsx", sheet("FinalMerge") firstrow clear
+{res}
+{com}. ttest age_hoh, by (treated)
+{err}variable age_hoh not found
+{txt}{search r(111):r(111);}
+
+{com}. rename ( Sheet12gender_hoh Sheet12age_hoh Sheet12educyears_hoh Sheet12readwrite_hoh Sheet12noclasspassed_hoh Sheet12higheduc_hoh Sheet12hhnomembers_above18 ) (gender_hoh age_hoh educyears_hoh readwrite_hoh noclasspassed_hoh higheduc_hoh hhnomembers_above18 )
+{res}
+{com}. rename ( Sheet12hhnomembers_below18 Sheet12hhreg_muslim Sheet12hhreg_christian Sheet12hhcaste_fc Sheet12hhcaste_bc Sheet12hhcaste_mbc Sheet12hhcaste_sc_st) (hhnomembers_below18 hhreg_muslim hhreg_christian hhcaste_fc hhcaste_bc hhcaste_mbc hhcaste_sc_st )
+{res}
+{com}. ttest age_hoh, by (treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1871{col 22} 46.44148{col 34} .2862787{col 46}   12.383{col 58} 45.88002{col 70} 47.00293
+       {txt}1 {c |}{res}{col 12}   1931{col 22} 47.05904{col 34} .2896375{col 46} 12.72758{col 58}   46.491{col 70} 47.62707
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3802{col 22} 46.75513{col 34} .2037182{col 46} 12.56134{col 58} 46.35572{col 70} 47.15454
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.6175616{col 34} .4074176{col 58} -1.41634{col 70} .1812166
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -1.5158
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3800
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.0648         {txt}Pr(|T| > |t|) = {res}0.1297          {txt}Pr(T > t) = {res}0.9352
+
+{com}. destring gender_hoh, generate (binary_gender) force
+{txt}gender_hoh contains nonnumeric characters; binary_gender {res}generated {txt}as {res}byte
+{txt}(4160 missing values generated)
+
+{com}. replace binary_gender = 1 if gender_hoh == "Male (1)"
+{txt}(2768 real changes made)
+
+{com}. replace binary_gender = 0 if gender_hoh == "Female (0)"
+{txt}(1034 real changes made)
+
+{com}. ttest binary_gender, by(treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1871{col 22} .7359701{col 34} .0101938{col 46} .4409331{col 58} .7159777{col 70} .7559625
+       {txt}1 {c |}{res}{col 12}   1931{col 22} .7203521{col 34} .0102164{col 46} .4489424{col 58} .7003157{col 70} .7403886
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3802{col 22} .7280379{col 34} .0072174{col 46}  .445029{col 58} .7138875{col 70} .7421883
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0156179{col 34} .0144363{col 58}-.0126858{col 70} .0439216
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  1.0818
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3800
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.8603         {txt}Pr(|T| > |t|) = {res}0.2794          {txt}Pr(T > t) = {res}0.1397
+
+{com}. ttest readwrite_hoh, by (treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1871{col 22} .6167825{col 34} .0112426{col 46} .4863006{col 58}  .594733{col 70} .6388319
+       {txt}1 {c |}{res}{col 12}   1931{col 22} .6204039{col 34} .0110464{col 46} .4854121{col 58} .5987399{col 70}  .642068
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3802{col 22} .6186218{col 34} .0078785{col 46}  .485789{col 58} .6031754{col 70} .6340682
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.0036215{col 34} .0157609{col 58} -.034522{col 70} .0272791
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -0.2298
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3800
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.4091         {txt}Pr(|T| > |t|) = {res}0.8183          {txt}Pr(T > t) = {res}0.5909
+
+{com}. ttest higheduc_hoh, by (treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1871{col 22} .0384821{col 34} .0044482{col 46} .1924084{col 58} .0297581{col 70} .0472061
+       {txt}1 {c |}{res}{col 12}   1931{col 22}  .054376{col 34} .0051616{col 46} .2268168{col 58} .0442531{col 70} .0644989
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3802{col 22} .0465544{col 34} .0034173{col 46} .2107102{col 58} .0398546{col 70} .0532543
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.0158939{col 34} .0068314{col 58}-.0292875{col 70}-.0025003
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -2.3266
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3800
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.0100         {txt}Pr(|T| > |t|) = {res}0.0200          {txt}Pr(T > t) = {res}0.9900
+
+{com}. ttest  hhreg_muslim, by (treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1871{col 22} .0326029{col 34} .0041069{col 46} .1776423{col 58} .0245484{col 70} .0406574
+       {txt}1 {c |}{res}{col 12}   1929{col 22} .0207361{col 34} .0032453{col 46} .1425366{col 58} .0143714{col 70} .0271009
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3800{col 22} .0265789{col 34} .0026097{col 46} .1608705{col 58} .0214625{col 70} .0316954
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0118668{col 34} .0052171{col 58} .0016382{col 70} .0220953
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  2.2746
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3798
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9885         {txt}Pr(|T| > |t|) = {res}0.0230          {txt}Pr(T > t) = {res}0.0115
+
+{com}. ttest hhreg_christian, by(treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1871{col 22}   .06093{col 34} .0055315{col 46} .2392658{col 58} .0500814{col 70} .0717786
+       {txt}1 {c |}{res}{col 12}   1929{col 22} .0388802{col 34} .0044025{col 46} .1933597{col 58} .0302461{col 70} .0475144
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3800{col 22} .0497368{col 34} .0035272{col 46} .2174294{col 58} .0428215{col 70} .0566522
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0220497{col 34}  .007047{col 58} .0082334{col 70}  .035866
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  3.1289
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3798
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9991         {txt}Pr(|T| > |t|) = {res}0.0018          {txt}Pr(T > t) = {res}0.0009
+
+{com}. ttest hhcaste_fc, by(treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1870{col 22} .0048128{col 34} .0016008{col 46}  .069226{col 58} .0016732{col 70} .0079525
+       {txt}1 {c |}{res}{col 12}   1931{col 22}  .007768{col 34} .0019984{col 46}  .087816{col 58} .0038487{col 70} .0116872
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3801{col 22} .0063141{col 34}  .001285{col 46} .0792206{col 58} .0037949{col 70} .0088334
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.0029552{col 34} .0025701{col 58}-.0079942{col 70} .0020838
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -1.1498
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3799
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.1251         {txt}Pr(|T| > |t|) = {res}0.2503          {txt}Pr(T > t) = {res}0.8749
+
+{com}. ttest hhcaste_bc, by(treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1870{col 22} .4176471{col 34} .0114076{col 46} .4933033{col 58} .3952741{col 70}   .44002
+       {txt}1 {c |}{res}{col 12}   1931{col 22} .3728638{col 34} .0110072{col 46} .4836916{col 58} .3512765{col 70} .3944511
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3801{col 22} .3948961{col 34} .0079298{col 46} .4888927{col 58} .3793489{col 70} .4104432
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0447833{col 34} .0158472{col 58} .0137135{col 70}  .075853
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  2.8259
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3799
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9976         {txt}Pr(|T| > |t|) = {res}0.0047          {txt}Pr(T > t) = {res}0.0024
+
+{com}. ttest hhcaste_mbc, by(treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1870{col 22}  .315508{col 34} .0107494{col 46} .4648422{col 58} .2944259{col 70} .3365901
+       {txt}1 {c |}{res}{col 12}   1931{col 22} .3614707{col 34} .0109357{col 46}  .480551{col 58} .3400236{col 70} .3829179
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3801{col 22} .3388582{col 34} .0076783{col 46} .4733839{col 58} .3238042{col 70} .3539122
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-.0459627{col 34} .0153425{col 58} -.076043{col 70}-.0158825
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res} -2.9958
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3799
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.0014         {txt}Pr(|T| > |t|) = {res}0.0028          {txt}Pr(T > t) = {res}0.9986
+
+{com}. ttest hhcaste_sc_st, by (treated)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}   1870{col 22} .2614973{col 34} .0101649{col 46} .4395677{col 58} .2415615{col 70} .2814332
+       {txt}1 {c |}{res}{col 12}   1931{col 22} .2578975{col 34} .0099581{col 46} .4375906{col 58} .2383677{col 70} .2774272
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}   3801{col 22} .2596685{col 34} .0071126{col 46} .4385104{col 58} .2457235{col 70} .2736135
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0035999{col 34} .0142289{col 58}-.0242971{col 70} .0314968
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  0.2530
+{txt}Ho: diff = 0                                     degrees of freedom = {res}    3799
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.5999         {txt}Pr(|T| > |t|) = {res}0.8003          {txt}Pr(T > t) = {res}0.4001
+
+{com}. reg num_hhinc treated i.pair_id
+
+      {txt}Source {c |}       SS       df       MS              Number of obs ={res}    4160
+{txt}{hline 13}{char +}{hline 30}           F( 50,  4109) ={res}    3.03
+    {txt}   Model {char |} {res} 4.7295e+10    50   945907671           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 1.2809e+12  4109   311724876           {txt}R-squared     = {res} 0.0356
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0239
+    {txt}   Total {char |} {res} 1.3282e+12  4159   319349098           {txt}Root MSE      = {res}  17656
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}   num_hhinc{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}treated {c |}{col 14}{res}{space 2} 720.1816{col 26}{space 2} 550.0071{col 37}{space 1}    1.31{col 46}{space 3}0.190{col 54}{space 4}-358.1301{col 67}{space 3} 1798.493
+{txt}{space 12} {c |}
+{space 5}pair_id {c |}
+{space 10}2  {c |}{col 14}{res}{space 2}-1233.129{col 26}{space 2} 2765.877{col 37}{space 1}   -0.45{col 46}{space 3}0.656{col 54}{space 4}-6655.746{col 67}{space 3} 4189.488
+{txt}{space 10}4  {c |}{col 14}{res}{space 2}-1711.663{col 26}{space 2} 2765.861{col 37}{space 1}   -0.62{col 46}{space 3}0.536{col 54}{space 4}-7134.249{col 67}{space 3} 3710.923
+{txt}{space 10}5  {c |}{col 14}{res}{space 2}-5199.552{col 26}{space 2} 2783.041{col 37}{space 1}   -1.87{col 46}{space 3}0.062{col 54}{space 4}-10655.82{col 67}{space 3} 256.7149
+{txt}{space 10}6  {c |}{col 14}{res}{space 2}-1638.227{col 26}{space 2}  2733.71{col 37}{space 1}   -0.60{col 46}{space 3}0.549{col 54}{space 4}-6997.779{col 67}{space 3} 3721.324
+{txt}{space 10}7  {c |}{col 14}{res}{space 2} 253.6683{col 26}{space 2} 2829.307{col 37}{space 1}    0.09{col 46}{space 3}0.929{col 54}{space 4}-5293.306{col 67}{space 3} 5800.642
+{txt}{space 10}9  {c |}{col 14}{res}{space 2} -2129.12{col 26}{space 2} 2800.901{col 37}{space 1}   -0.76{col 46}{space 3}0.447{col 54}{space 4}-7620.404{col 67}{space 3} 3362.163
+{txt}{space 9}10  {c |}{col 14}{res}{space 2}-3423.674{col 26}{space 2} 2718.613{col 37}{space 1}   -1.26{col 46}{space 3}0.208{col 54}{space 4}-8753.628{col 67}{space 3} 1906.279
+{txt}{space 9}11  {c |}{col 14}{res}{space 2}-4820.059{col 26}{space 2} 2741.506{col 37}{space 1}   -1.76{col 46}{space 3}0.079{col 54}{space 4}-10194.89{col 67}{space 3} 554.7775
+{txt}{space 9}12  {c |}{col 14}{res}{space 2}-4302.053{col 26}{space 2} 2849.339{col 37}{space 1}   -1.51{col 46}{space 3}0.131{col 54}{space 4}  -9888.3{col 67}{space 3} 1284.195
+{txt}{space 9}13  {c |}{col 14}{res}{space 2}-2881.735{col 26}{space 2} 2801.055{col 37}{space 1}   -1.03{col 46}{space 3}0.304{col 54}{space 4} -8373.32{col 67}{space 3}  2609.85
+{txt}{space 9}14  {c |}{col 14}{res}{space 2}-5198.349{col 26}{space 2} 2757.598{col 37}{space 1}   -1.89{col 46}{space 3}0.059{col 54}{space 4}-10604.73{col 67}{space 3} 208.0362
+{txt}{space 9}15  {c |}{col 14}{res}{space 2} 3508.516{col 26}{space 2} 2820.414{col 37}{space 1}    1.24{col 46}{space 3}0.214{col 54}{space 4}-2021.022{col 67}{space 3} 9038.054
+{txt}{space 9}16  {c |}{col 14}{res}{space 2}-4482.497{col 26}{space 2} 2881.562{col 37}{space 1}   -1.56{col 46}{space 3}0.120{col 54}{space 4}-10131.92{col 67}{space 3} 1166.925
+{txt}{space 9}17  {c |}{col 14}{res}{space 2}-4256.427{col 26}{space 2} 2870.509{col 37}{space 1}   -1.48{col 46}{space 3}0.138{col 54}{space 4}-9884.179{col 67}{space 3} 1371.324
+{txt}{space 9}18  {c |}{col 14}{res}{space 2}-2945.722{col 26}{space 2} 2663.758{col 37}{space 1}   -1.11{col 46}{space 3}0.269{col 54}{space 4}-8168.131{col 67}{space 3} 2276.687
+{txt}{space 9}20  {c |}{col 14}{res}{space 2}-509.4325{col 26}{space 2} 2749.495{col 37}{space 1}   -0.19{col 46}{space 3}0.853{col 54}{space 4}-5899.931{col 67}{space 3} 4881.066
+{txt}{space 9}21  {c |}{col 14}{res}{space 2}-4239.612{col 26}{space 2} 2757.575{col 37}{space 1}   -1.54{col 46}{space 3}0.124{col 54}{space 4}-9645.951{col 67}{space 3} 1166.728
+{txt}{space 9}22  {c |}{col 14}{res}{space 2}-3992.436{col 26}{space 2} 2881.279{col 37}{space 1}   -1.39{col 46}{space 3}0.166{col 54}{space 4}-9641.304{col 67}{space 3} 1656.432
+{txt}{space 9}23  {c |}{col 14}{res}{space 2} 303.3676{col 26}{space 2} 2676.759{col 37}{space 1}    0.11{col 46}{space 3}0.910{col 54}{space 4} -4944.53{col 67}{space 3} 5551.266
+{txt}{space 9}25  {c |}{col 14}{res}{space 2}-4830.095{col 26}{space 2} 2994.301{col 37}{space 1}   -1.61{col 46}{space 3}0.107{col 54}{space 4}-10700.55{col 67}{space 3} 1040.356
+{txt}{space 9}26  {c |}{col 14}{res}{space 2}-3228.624{col 26}{space 2} 2749.499{col 37}{space 1}   -1.17{col 46}{space 3}0.240{col 54}{space 4}-8619.131{col 67}{space 3} 2161.883
+{txt}{space 9}28  {c |}{col 14}{res}{space 2}-5190.569{col 26}{space 2} 2704.132{col 37}{space 1}   -1.92{col 46}{space 3}0.055{col 54}{space 4}-10492.13{col 67}{space 3} 110.9945
+{txt}{space 9}29  {c |}{col 14}{res}{space 2}-4541.528{col 26}{space 2} 2783.039{col 37}{space 1}   -1.63{col 46}{space 3}0.103{col 54}{space 4}-9997.792{col 67}{space 3} 914.7357
+{txt}{space 9}30  {c |}{col 14}{res}{space 2} 2322.982{col 26}{space 2} 2810.216{col 37}{space 1}    0.83{col 46}{space 3}0.409{col 54}{space 4}-3186.562{col 67}{space 3} 7832.527
+{txt}{space 9}31  {c |}{col 14}{res}{space 2}-1971.293{col 26}{space 2}  3007.32{col 37}{space 1}   -0.66{col 46}{space 3}0.512{col 54}{space 4}-7867.269{col 67}{space 3} 3924.683
+{txt}{space 9}32  {c |}{col 14}{res}{space 2}-327.3708{col 26}{space 2} 2749.465{col 37}{space 1}   -0.12{col 46}{space 3}0.905{col 54}{space 4} -5717.81{col 67}{space 3} 5063.068
+{txt}{space 9}33  {c |}{col 14}{res}{space 2} -3726.95{col 26}{space 2} 2749.451{col 37}{space 1}   -1.36{col 46}{space 3}0.175{col 54}{space 4}-9117.362{col 67}{space 3} 1663.462
+{txt}{space 9}34  {c |}{col 14}{res}{space 2}-443.7259{col 26}{space 2}  2783.09{col 37}{space 1}   -0.16{col 46}{space 3}0.873{col 54}{space 4}-5900.089{col 67}{space 3} 5012.637
+{txt}{space 9}35  {c |}{col 14}{res}{space 2}-3655.906{col 26}{space 2} 2829.434{col 37}{space 1}   -1.29{col 46}{space 3}0.196{col 54}{space 4}-9203.129{col 67}{space 3} 1891.316
+{txt}{space 9}36  {c |}{col 14}{res}{space 2}-6076.402{col 26}{space 2} 2697.068{col 37}{space 1}   -2.25{col 46}{space 3}0.024{col 54}{space 4}-11364.12{col 67}{space 3}-788.6874
+{txt}{space 9}37  {c |}{col 14}{res}{space 2}-2093.204{col 26}{space 2} 2676.781{col 37}{space 1}   -0.78{col 46}{space 3}0.434{col 54}{space 4}-7341.144{col 67}{space 3} 3154.736
+{txt}{space 9}38  {c |}{col 14}{res}{space 2}-1862.403{col 26}{space 2} 2670.166{col 37}{space 1}   -0.70{col 46}{space 3}0.486{col 54}{space 4}-7097.375{col 67}{space 3} 3372.569
+{txt}{space 9}39  {c |}{col 14}{res}{space 2}-2161.596{col 26}{space 2} 2627.711{col 37}{space 1}   -0.82{col 46}{space 3}0.411{col 54}{space 4}-7313.332{col 67}{space 3}  2990.14
+{txt}{space 9}40  {c |}{col 14}{res}{space 2}-1854.878{col 26}{space 2} 2532.518{col 37}{space 1}   -0.73{col 46}{space 3}0.464{col 54}{space 4}-6819.985{col 67}{space 3} 3110.229
+{txt}{space 9}41  {c |}{col 14}{res}{space 2} 1637.913{col 26}{space 2} 2711.294{col 37}{space 1}    0.60{col 46}{space 3}0.546{col 54}{space 4} -3677.69{col 67}{space 3} 6953.517
+{txt}{space 9}42  {c |}{col 14}{res}{space 2} 1469.761{col 26}{space 2} 2704.086{col 37}{space 1}    0.54{col 46}{space 3}0.587{col 54}{space 4}-3831.712{col 67}{space 3} 6771.234
+{txt}{space 9}43  {c |}{col 14}{res}{space 2} 336.3552{col 26}{space 2}  2741.53{col 37}{space 1}    0.12{col 46}{space 3}0.902{col 54}{space 4}-5038.528{col 67}{space 3} 5711.239
+{txt}{space 9}44  {c |}{col 14}{res}{space 2}-330.3614{col 26}{space 2} 2774.464{col 37}{space 1}   -0.12{col 46}{space 3}0.905{col 54}{space 4}-5769.812{col 67}{space 3}  5109.09
+{txt}{space 9}45  {c |}{col 14}{res}{space 2} 12206.64{col 26}{space 2} 2783.006{col 37}{space 1}    4.39{col 46}{space 3}0.000{col 54}{space 4} 6750.447{col 67}{space 3} 17662.84
+{txt}{space 9}46  {c |}{col 14}{res}{space 2} 7571.773{col 26}{space 2} 2711.279{col 37}{space 1}    2.79{col 46}{space 3}0.005{col 54}{space 4} 2256.199{col 67}{space 3} 12887.35
+{txt}{space 9}47  {c |}{col 14}{res}{space 2}-4834.823{col 26}{space 2} 2741.506{col 37}{space 1}   -1.76{col 46}{space 3}0.078{col 54}{space 4}-10209.66{col 67}{space 3} 540.0128
+{txt}{space 9}48  {c |}{col 14}{res}{space 2} 4415.174{col 26}{space 2} 2741.497{col 37}{space 1}    1.61{col 46}{space 3}0.107{col 54}{space 4}-959.6446{col 67}{space 3} 9789.993
+{txt}{space 9}49  {c |}{col 14}{res}{space 2} 341.6882{col 26}{space 2}  2810.14{col 37}{space 1}    0.12{col 46}{space 3}0.903{col 54}{space 4}-5167.709{col 67}{space 3} 5851.085
+{txt}{space 9}50  {c |}{col 14}{res}{space 2}-3779.823{col 26}{space 2} 2741.506{col 37}{space 1}   -1.38{col 46}{space 3}0.168{col 54}{space 4} -9154.66{col 67}{space 3} 1595.013
+{txt}{space 9}51  {c |}{col 14}{res}{space 2} 1448.261{col 26}{space 2} 2697.058{col 37}{space 1}    0.54{col 46}{space 3}0.591{col 54}{space 4}-3839.434{col 67}{space 3} 6735.955
+{txt}{space 9}52  {c |}{col 14}{res}{space 2}-2204.115{col 26}{space 2}  2741.53{col 37}{space 1}   -0.80{col 46}{space 3}0.421{col 54}{space 4}-7578.999{col 67}{space 3} 3170.768
+{txt}{space 9}53  {c |}{col 14}{res}{space 2}-971.5772{col 26}{space 2} 2726.149{col 37}{space 1}   -0.36{col 46}{space 3}0.722{col 54}{space 4}-6316.305{col 67}{space 3}  4373.15
+{txt}{space 9}54  {c |}{col 14}{res}{space 2}-2275.983{col 26}{space 2} 2774.364{col 37}{space 1}   -0.82{col 46}{space 3}0.412{col 54}{space 4}-7715.239{col 67}{space 3} 3163.272
+{txt}{space 9}55  {c |}{col 14}{res}{space 2}-3954.714{col 26}{space 2}  2819.61{col 37}{space 1}   -1.40{col 46}{space 3}0.161{col 54}{space 4}-9482.677{col 67}{space 3} 1573.249
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  11586.2{col 26}{space 2} 1982.369{col 37}{space 1}    5.84{col 46}{space 3}0.000{col 54}{space 4} 7699.685{col 67}{space 3} 15472.72
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. gen log_hhinc = log( num_hhinc )
+{txt}(248 missing values generated)
+
+{com}. reg log_hhinc treated i.pair_id
+
+      {txt}Source {c |}       SS       df       MS              Number of obs ={res}    3912
+{txt}{hline 13}{char +}{hline 30}           F( 50,  3861) ={res}    4.10
+    {txt}   Model {char |} {res} 224.638096    50  4.49276192           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 4231.04558  3861   1.0958419           {txt}R-squared     = {res} 0.0504
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0381
+    {txt}   Total {char |} {res} 4455.68368  3911  1.13926967           {txt}Root MSE      = {res} 1.0468
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}   log_hhinc{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}treated {c |}{col 14}{res}{space 2}   .06281{col 26}{space 2} .0336357{col 37}{space 1}    1.87{col 46}{space 3}0.062{col 54}{space 4}-.0031355{col 67}{space 3} .1287555
+{txt}{space 12} {c |}
+{space 5}pair_id {c |}
+{space 10}2  {c |}{col 14}{res}{space 2} .1464747{col 26}{space 2}  .167123{col 37}{space 1}    0.88{col 46}{space 3}0.381{col 54}{space 4}-.1811831{col 67}{space 3} .4741326
+{txt}{space 10}4  {c |}{col 14}{res}{space 2} .1842068{col 26}{space 2} .1698321{col 37}{space 1}    1.08{col 46}{space 3}0.278{col 54}{space 4}-.1487623{col 67}{space 3}  .517176
+{txt}{space 10}5  {c |}{col 14}{res}{space 2}-.2839533{col 26}{space 2} .1692688{col 37}{space 1}   -1.68{col 46}{space 3}0.094{col 54}{space 4}-.6158181{col 67}{space 3} .0479115
+{txt}{space 10}6  {c |}{col 14}{res}{space 2} .0531836{col 26}{space 2} .1661206{col 37}{space 1}    0.32{col 46}{space 3}0.749{col 54}{space 4} -.272509{col 67}{space 3} .3788762
+{txt}{space 10}7  {c |}{col 14}{res}{space 2} .0986578{col 26}{space 2} .1698344{col 37}{space 1}    0.58{col 46}{space 3}0.561{col 54}{space 4}-.2343158{col 67}{space 3} .4316314
+{txt}{space 10}9  {c |}{col 14}{res}{space 2} .0782791{col 26}{space 2} .1687116{col 37}{space 1}    0.46{col 46}{space 3}0.643{col 54}{space 4}-.2524933{col 67}{space 3} .4090515
+{txt}{space 9}10  {c |}{col 14}{res}{space 2} .0578387{col 26}{space 2} .1637928{col 37}{space 1}    0.35{col 46}{space 3}0.724{col 54}{space 4}-.2632899{col 67}{space 3} .3789674
+{txt}{space 9}11  {c |}{col 14}{res}{space 2} .0475253{col 26}{space 2} .1698344{col 37}{space 1}    0.28{col 46}{space 3}0.780{col 54}{space 4}-.2854483{col 67}{space 3} .3804989
+{txt}{space 9}12  {c |}{col 14}{res}{space 2}-.2093816{col 26}{space 2}  .176327{col 37}{space 1}   -1.19{col 46}{space 3}0.235{col 54}{space 4}-.5550847{col 67}{space 3} .1363214
+{txt}{space 9}13  {c |}{col 14}{res}{space 2}-.0372958{col 26}{space 2} .1735379{col 37}{space 1}   -0.21{col 46}{space 3}0.830{col 54}{space 4}-.3775305{col 67}{space 3} .3029389
+{txt}{space 9}14  {c |}{col 14}{res}{space 2}-.2231957{col 26}{space 2} .1704125{col 37}{space 1}   -1.31{col 46}{space 3}0.190{col 54}{space 4}-.5573028{col 67}{space 3} .1109115
+{txt}{space 9}15  {c |}{col 14}{res}{space 2}  .255321{col 26}{space 2} .1729241{col 37}{space 1}    1.48{col 46}{space 3}0.140{col 54}{space 4}-.0837103{col 67}{space 3} .5943523
+{txt}{space 9}16  {c |}{col 14}{res}{space 2} -.125162{col 26}{space 2} .1756207{col 37}{space 1}   -0.71{col 46}{space 3}0.476{col 54}{space 4}-.4694802{col 67}{space 3} .2191563
+{txt}{space 9}17  {c |}{col 14}{res}{space 2} -.185713{col 26}{space 2}  .172885{col 37}{space 1}   -1.07{col 46}{space 3}0.283{col 54}{space 4}-.5246675{col 67}{space 3} .1532416
+{txt}{space 9}18  {c |}{col 14}{res}{space 2}-.0796841{col 26}{space 2}  .163792{col 37}{space 1}   -0.49{col 46}{space 3}0.627{col 54}{space 4}-.4008112{col 67}{space 3} .2414429
+{txt}{space 9}20  {c |}{col 14}{res}{space 2}-.1067055{col 26}{space 2} .1656381{col 37}{space 1}   -0.64{col 46}{space 3}0.519{col 54}{space 4}-.4314521{col 67}{space 3}  .218041
+{txt}{space 9}21  {c |}{col 14}{res}{space 2} .0213318{col 26}{space 2} .1710066{col 37}{space 1}    0.12{col 46}{space 3}0.901{col 54}{space 4}  -.31394{col 67}{space 3} .3566036
+{txt}{space 9}22  {c |}{col 14}{res}{space 2} .0300448{col 26}{space 2} .1756013{col 37}{space 1}    0.17{col 46}{space 3}0.864{col 54}{space 4}-.3142353{col 67}{space 3} .3743249
+{txt}{space 9}23  {c |}{col 14}{res}{space 2} .0394929{col 26}{space 2} .1629312{col 37}{space 1}    0.24{col 46}{space 3}0.808{col 54}{space 4}-.2799465{col 67}{space 3} .3589323
+{txt}{space 9}25  {c |}{col 14}{res}{space 2}  -.01724{col 26}{space 2} .1879877{col 37}{space 1}   -0.09{col 46}{space 3}0.927{col 54}{space 4}-.3858047{col 67}{space 3} .3513247
+{txt}{space 9}26  {c |}{col 14}{res}{space 2}-.3288638{col 26}{space 2} .1656388{col 37}{space 1}   -1.99{col 46}{space 3}0.047{col 54}{space 4}-.6536117{col 67}{space 3}-.0041158
+{txt}{space 9}28  {c |}{col 14}{res}{space 2}-.1180855{col 26}{space 2}  .165634{col 37}{space 1}   -0.71{col 46}{space 3}0.476{col 54}{space 4} -.442824{col 67}{space 3} .2066531
+{txt}{space 9}29  {c |}{col 14}{res}{space 2}-.0777514{col 26}{space 2} .1687133{col 37}{space 1}   -0.46{col 46}{space 3}0.645{col 54}{space 4}-.4085271{col 67}{space 3} .2530244
+{txt}{space 9}30  {c |}{col 14}{res}{space 2} .4998499{col 26}{space 2} .1716285{col 37}{space 1}    2.91{col 46}{space 3}0.004{col 54}{space 4} .1633587{col 67}{space 3} .8363412
+{txt}{space 9}31  {c |}{col 14}{res}{space 2} .0905625{col 26}{space 2} .1901382{col 37}{space 1}    0.48{col 46}{space 3}0.634{col 54}{space 4}-.2822184{col 67}{space 3} .4633435
+{txt}{space 9}32  {c |}{col 14}{res}{space 2} .2836209{col 26}{space 2} .1666156{col 37}{space 1}    1.70{col 46}{space 3}0.089{col 54}{space 4}-.0430422{col 67}{space 3}  .610284
+{txt}{space 9}33  {c |}{col 14}{res}{space 2}-.0921489{col 26}{space 2} .1692664{col 37}{space 1}   -0.54{col 46}{space 3}0.586{col 54}{space 4} -.424009{col 67}{space 3} .2397112
+{txt}{space 9}34  {c |}{col 14}{res}{space 2}-.0156151{col 26}{space 2} .1671286{col 37}{space 1}   -0.09{col 46}{space 3}0.926{col 54}{space 4}-.3432839{col 67}{space 3} .3120537
+{txt}{space 9}35  {c |}{col 14}{res}{space 2}-.2639297{col 26}{space 2} .1710169{col 37}{space 1}   -1.54{col 46}{space 3}0.123{col 54}{space 4}-.5992218{col 67}{space 3} .0713623
+{txt}{space 9}36  {c |}{col 14}{res}{space 2}-.2734514{col 26}{space 2} .1671232{col 37}{space 1}   -1.64{col 46}{space 3}0.102{col 54}{space 4}-.6011096{col 67}{space 3} .0542068
+{txt}{space 9}37  {c |}{col 14}{res}{space 2}-.2577436{col 26}{space 2} .1625059{col 37}{space 1}   -1.59{col 46}{space 3}0.113{col 54}{space 4}-.5763491{col 67}{space 3}  .060862
+{txt}{space 9}38  {c |}{col 14}{res}{space 2}-.0406977{col 26}{space 2} .1609025{col 37}{space 1}   -0.25{col 46}{space 3}0.800{col 54}{space 4}-.3561597{col 67}{space 3} .2747643
+{txt}{space 9}39  {c |}{col 14}{res}{space 2} .0980066{col 26}{space 2} .1625067{col 37}{space 1}    0.60{col 46}{space 3}0.546{col 54}{space 4}-.2206006{col 67}{space 3} .4166139
+{txt}{space 9}40  {c |}{col 14}{res}{space 2} .1445874{col 26}{space 2} .1537321{col 37}{space 1}    0.94{col 46}{space 3}0.347{col 54}{space 4}-.1568165{col 67}{space 3} .4459913
+{txt}{space 9}41  {c |}{col 14}{res}{space 2}-.0144413{col 26}{space 2} .1642403{col 37}{space 1}   -0.09{col 46}{space 3}0.930{col 54}{space 4}-.3364474{col 67}{space 3} .3075648
+{txt}{space 9}42  {c |}{col 14}{res}{space 2}  .129271{col 26}{space 2} .1646936{col 37}{space 1}    0.78{col 46}{space 3}0.433{col 54}{space 4}-.1936237{col 67}{space 3} .4521657
+{txt}{space 9}43  {c |}{col 14}{res}{space 2} .0269674{col 26}{space 2} .1687133{col 37}{space 1}    0.16{col 46}{space 3}0.873{col 54}{space 4}-.3038083{col 67}{space 3} .3577432
+{txt}{space 9}44  {c |}{col 14}{res}{space 2}-.0066143{col 26}{space 2} .1692687{col 37}{space 1}   -0.04{col 46}{space 3}0.969{col 54}{space 4}-.3384789{col 67}{space 3} .3252503
+{txt}{space 9}45  {c |}{col 14}{res}{space 2}   .91545{col 26}{space 2} .1698321{col 37}{space 1}    5.39{col 46}{space 3}0.000{col 54}{space 4} .5824809{col 67}{space 3} 1.248419
+{txt}{space 9}46  {c |}{col 14}{res}{space 2} .8158048{col 26}{space 2}  .167122{col 37}{space 1}    4.88{col 46}{space 3}0.000{col 54}{space 4} .4881489{col 67}{space 3} 1.143461
+{txt}{space 9}47  {c |}{col 14}{res}{space 2}-.1111807{col 26}{space 2} .1698344{col 37}{space 1}   -0.65{col 46}{space 3}0.513{col 54}{space 4}-.4441543{col 67}{space 3}  .221793
+{txt}{space 9}48  {c |}{col 14}{res}{space 2} .1456519{col 26}{space 2} .1646936{col 37}{space 1}    0.88{col 46}{space 3}0.377{col 54}{space 4}-.1772428{col 67}{space 3} .4685466
+{txt}{space 9}49  {c |}{col 14}{res}{space 2} .2935245{col 26}{space 2} .1716194{col 37}{space 1}    1.71{col 46}{space 3}0.087{col 54}{space 4}-.0429488{col 67}{space 3} .6299978
+{txt}{space 9}50  {c |}{col 14}{res}{space 2}-.0786287{col 26}{space 2} .1661228{col 37}{space 1}   -0.47{col 46}{space 3}0.636{col 54}{space 4}-.4043254{col 67}{space 3} .2470681
+{txt}{space 9}51  {c |}{col 14}{res}{space 2} .3729532{col 26}{space 2} .1629263{col 37}{space 1}    2.29{col 46}{space 3}0.022{col 54}{space 4} .0535233{col 67}{space 3}  .692383
+{txt}{space 9}52  {c |}{col 14}{res}{space 2}-.0566547{col 26}{space 2} .1676449{col 37}{space 1}   -0.34{col 46}{space 3}0.735{col 54}{space 4}-.3853356{col 67}{space 3} .2720263
+{txt}{space 9}53  {c |}{col 14}{res}{space 2} .1127132{col 26}{space 2} .1646983{col 37}{space 1}    0.68{col 46}{space 3}0.494{col 54}{space 4}-.2101908{col 67}{space 3} .4356172
+{txt}{space 9}54  {c |}{col 14}{res}{space 2} .1276493{col 26}{space 2}  .168173{col 37}{space 1}    0.76{col 46}{space 3}0.448{col 54}{space 4} -.202067{col 67}{space 3} .4573656
+{txt}{space 9}55  {c |}{col 14}{res}{space 2}-.0253249{col 26}{space 2} .1704137{col 37}{space 1}   -0.15{col 46}{space 3}0.882{col 54}{space 4}-.3594343{col 67}{space 3} .3087845
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 8.659202{col 26}{space 2} .1205696{col 37}{space 1}   71.82{col 46}{space 3}0.000{col 54}{space 4} 8.422816{col 67}{space 3} 8.895588
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. reg log_hhinc treated binary_gender readwrite_hoh hhinc_percapita hhnomembers hhcaste_fc hhreg_muslim hhreg_christian hhcaste_sc_st hhcaste_mbc higheduc_hoh
+
+      {txt}Source {c |}       SS       df       MS              Number of obs ={res}    3581
+{txt}{hline 13}{char +}{hline 30}           F( 11,  3569) ={res}  287.78
+    {txt}   Model {char |} {res} 1901.46505    11  172.860459           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 2143.75125  3569  .600658798           {txt}R-squared     = {res} 0.4701
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.4684
+    {txt}   Total {char |} {res}  4045.2163  3580  1.12994869           {txt}Root MSE      = {res} .77502
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      log_hhinc{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      t{col 49}   P>|t|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}treated {c |}{col 17}{res}{space 2} .0402684{col 29}{space 2} .0260281{col 40}{space 1}    1.55{col 49}{space 3}0.122{col 57}{space 4}-.0107629{col 70}{space 3} .0912998
+{txt}{space 2}binary_gender {c |}{col 17}{res}{space 2} .1233724{col 29}{space 2} .0308642{col 40}{space 1}    4.00{col 49}{space 3}0.000{col 57}{space 4} .0628591{col 70}{space 3} .1838856
+{txt}{space 2}readwrite_hoh {c |}{col 17}{res}{space 2} .1384482{col 29}{space 2} .0284672{col 40}{space 1}    4.86{col 49}{space 3}0.000{col 57}{space 4} .0826345{col 70}{space 3} .1942618
+{txt}hhinc_percapita {c |}{col 17}{res}{space 2} .0001471{col 29}{space 2} 2.93e-06{col 40}{space 1}   50.26{col 49}{space 3}0.000{col 57}{space 4} .0001413{col 70}{space 3} .0001528
+{txt}{space 4}hhnomembers {c |}{col 17}{res}{space 2} .1577918{col 29}{space 2} .0071901{col 40}{space 1}   21.95{col 49}{space 3}0.000{col 57}{space 4} .1436948{col 70}{space 3} .1718889
+{txt}{space 5}hhcaste_fc {c |}{col 17}{res}{space 2}  .257176{col 29}{space 2} .1670121{col 40}{space 1}    1.54{col 49}{space 3}0.124{col 57}{space 4}-.0702729{col 70}{space 3} .5846248
+{txt}{space 3}hhreg_muslim {c |}{col 17}{res}{space 2} .0018759{col 29}{space 2} .0838672{col 40}{space 1}    0.02{col 49}{space 3}0.982{col 57}{space 4}-.1625565{col 70}{space 3} .1663084
+{txt}hhreg_christian {c |}{col 17}{res}{space 2} .0545206{col 29}{space 2} .0609003{col 40}{space 1}    0.90{col 49}{space 3}0.371{col 57}{space 4}-.0648822{col 70}{space 3} .1739235
+{txt}{space 2}hhcaste_sc_st {c |}{col 17}{res}{space 2}-.0693695{col 29}{space 2} .0335824{col 40}{space 1}   -2.07{col 49}{space 3}0.039{col 57}{space 4}-.1352122{col 70}{space 3}-.0035268
+{txt}{space 4}hhcaste_mbc {c |}{col 17}{res}{space 2}-.0684424{col 29}{space 2} .0315165{col 40}{space 1}   -2.17{col 49}{space 3}0.030{col 57}{space 4}-.1302345{col 70}{space 3}-.0066503
+{txt}{space 3}higheduc_hoh {c |}{col 17}{res}{space 2} .2711925{col 29}{space 2} .0643063{col 40}{space 1}    4.22{col 49}{space 3}0.000{col 57}{space 4} .1451117{col 70}{space 3} .3972733
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} 7.460407{col 29}{space 2} .0464351{col 40}{space 1}  160.66{col 49}{space 3}0.000{col 57}{space 4} 7.369365{col 70}{space 3} 7.551449
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. xtile num_hhinc_quartiles = num_hhinc, nq(4)
+
+. tabstat num_hhinc, stat(n mean) by( num_hhinc_quartiles )
+
+{txt}Summary for variables: num_hhinc
+{col 6}by categories of: num_hhinc_quartiles (4 quantiles of num_hhinc)
+
+{ralign 19:num_hhinc_quartiles} {...}
+{c |}         N      mean
+{hline 20}{c +}{hline 20}
+{ralign 19:1} {...}
+{c |}{...}
+ {res}     1040  1165.432
+{txt}{ralign 19:2} {...}
+{c |}{...}
+ {res}     1062  4394.419
+{txt}{ralign 19:3} {...}
+{c |}{...}
+ {res}     1022  8515.509
+{txt}{ralign 19:4} {...}
+{c |}{...}
+ {res}     1036  27846.25
+{txt}{hline 20}{c +}{hline 20}
+{ralign 19:Total} {...}
+{c |}{...}
+ {res}     4160  10440.02
+{txt}{hline 20}{c BT}{hline 20}
+
+{com}. graph bar (mean) num_hhinc if treated == 1, over(num_hhinc_quartiles) bar(1, fcolor(cranberry) fintensity(inten80) lcolor(black) lwidth(medthick)) ytitle(Mean of Each Income Quartile for Treatment Group)
+{res}
+{com}. compress
+{txt}  (0 bytes saved)
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Shaurya\Downloads\Stata_Test_2020 (2)\Data Analysis Log.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}20 Feb 2022, 02:45:17
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
